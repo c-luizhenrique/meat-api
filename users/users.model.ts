@@ -1,8 +1,7 @@
-import { environment } from './../common/environment';
-import { validateCPF } from './../common/validators';
 import * as mongoose from 'mongoose'
-import * as bcrypt from 'bcrypt';
-
+import {validateCPF} from '../common/validators'
+import * as bcrypt from 'bcrypt'
+import {environment} from '../common/environment'
 
 export interface User extends mongoose.Document {
   name: string,
@@ -15,12 +14,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     maxlength: 80,
-    minlength:3
+    minlength: 3
   },
   email: {
     type: String,
     unique: true,
-    match:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     required: true
   },
   password: {
@@ -28,17 +27,17 @@ const userSchema = new mongoose.Schema({
     select: false,
     required: true
   },
-  gender:{
+  gender: {
     type: String,
     required: false,
-    enum: ['Male','Female']
+    enum: ['Male', 'Female']
   },
   cpf: {
     type: String,
     required: false,
     validate: {
       validator: validateCPF,
-      message: '{PATH}: Invalid CPF({VALUE})'
+      message: '{PATH}: Invalid CPF ({VALUE})'
     }
   }
 })

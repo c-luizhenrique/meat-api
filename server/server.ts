@@ -1,20 +1,19 @@
-import { handleError } from './error.handler';
-import { mergePatchBodyParser } from './merge-patch.parser';
 import * as restify from 'restify'
 import * as mongoose from 'mongoose'
 
 import {environment} from '../common/environment'
 import {Router} from '../common/router'
-
+import {mergePatchBodyParser} from './merge-patch.parser'
+import {handleError} from './error.handler'
 
 export class Server {
 
   application: restify.Server
 
-  initializeDb() {
-    
+  initializeDb(): mongoose.MongooseThenable {
+    (<any>mongoose).Promise = global.Promise
     return mongoose.connect(environment.db.url, {
-      
+      useMongoClient: true
     })
   }
 
